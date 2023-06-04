@@ -419,7 +419,8 @@ public class VaultScript : MonoBehaviour
             while (!pressable)
                 yield return null;
             submit.OnInteract();
-            yield return "solve";
+            if (moduleSolved)
+                yield return "solve";
             yield break;
         }
         if (command.ToLowerInvariant() == "reset")
