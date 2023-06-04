@@ -478,6 +478,7 @@ GameObject:
   - component: {fileID: 114148164405780154}
   - component: {fileID: 114029274116739138}
   - component: {fileID: 114341487975522400}
+  - component: {fileID: 114003987320389804}
   m_Layer: 0
   m_Name: CombinationVault
   m_TagString: Untagged
@@ -4875,6 +4876,18 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
+--- !u!114 &114003987320389804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471378530621960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf69c2de51bd3c43bbd9bc22578ee08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seed: 1
 --- !u!114 &114008808184378528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5318,6 +5331,7 @@ MonoBehaviour:
   Audio: {fileID: 114447133017060392}
   module: {fileID: 114148164405780154}
   info: {fileID: 114259109390022186}
+  ruleSeedHandler: {fileID: 114003987320389804}
   door: {fileID: 4406144656637586}
   pins:
   - {fileID: 4029810084481344}

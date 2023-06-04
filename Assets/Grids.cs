@@ -435,4 +435,25 @@
         "20222321202123222",
         "00302000102030100"},
     };
+    public static string[][] GenerateRuleSeedG(MonoRandom random)
+    {
+        var output = new string[24][];
+        if (random.Seed == 1)
+            return g;
+        for (var x = 0; x < 24; x++)
+        {
+            var nextGrid = new string[17];
+            for (var y = 0; y < 17; y++)
+            {
+                nextGrid[y] = "";
+                for (var z = 0; z < 17; z++)
+                {
+                    var nextRandom = random.Next(0, 4);
+                    nextGrid[y] += nextRandom.ToString();
+                }
+            }
+            output[x] = nextGrid;
+        }
+        return output;
+    }
 }
