@@ -9,6 +9,7 @@ public class VaultScript : MonoBehaviour
     public KMAudio Audio;
     public KMBombModule module;
     public KMBombInfo info;
+    public KMRuleSeedable ruleSeedHandler;
     public Transform door;
     public Transform[] pins;
     public Transform[] dialrots;
@@ -109,7 +110,9 @@ public class VaultScript : MonoBehaviour
         else
             for (int i = 0; i < 4; i++)
                 backings[i].material = bmats[dassign[i]];
-        grid = Grids.g[gridnum];
+        var seedUsed = ruleSeedHandler.GetRNG() ?? new MonoRandom(1);
+        var usedRSGrid = Grids.GenerateRuleSeedG(seedUsed);
+        grid = usedRSGrid[gridnum];
         string sn = info.GetSerialNumber();
         int[] scoords = Enumerable.Range(0, 3).Select(x => sn.Skip(x * 2).Take(2).ToArray()).Select(x => (thirtysix.IndexOf(x[0]) * 36 + thirtysix.IndexOf(x[1])) % 256).ToArray();
         for (int i = 1; i < 3; i++)
@@ -124,6 +127,14 @@ public class VaultScript : MonoBehaviour
             for (int j = 0; j < 4; j++)
                 targets[i][j] = grid[c[0] + (j / 2)][c[1] + (j % 2)] - '0';
         }
+        Debug.LogFormat("[{0} Vault #{1}] Grids generated using rule seed {2}. See filtered log for the grids.", cursed ? "Cursed" : "Combination", moduleID, seedUsed.Seed);
+        for (var x = 0; x < usedRSGrid.Length; x++)
+        {
+            Debug.LogFormat("<{0} Vault #{1}> {2}:", cursed ? "Cursed" : "Combination", moduleID, Grids.c[x]);
+            for (var y = 0; y < usedRSGrid[x].Length; y++)
+                Debug.LogFormat("<{0} Vault #{1}> {2}", cursed ? "Cursed" : "Combination", moduleID, usedRSGrid[x][y].Select(a => "URDL"[a - '0']).Join(""));
+        }
+
         if (cursed)
         {
             int attempts = 0;
@@ -408,6 +419,8 @@ public class VaultScript : MonoBehaviour
             while (!pressable)
                 yield return null;
             submit.OnInteract();
+            if (moduleSolved)
+                yield return "solve";
             yield break;
         }
         if (command.ToLowerInvariant() == "reset")
